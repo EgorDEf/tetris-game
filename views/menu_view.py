@@ -7,7 +7,6 @@ class MenuView(arcade.View):
         super().__init__()
         self.background_color = MENU_BG_COLOR
         self.music_player = None
-        self.button_clicked = False  # ИСПРАВЛЕНО: флаг для предотвращения двойного клика
 
     def on_show(self):
         if MUSIC["menu"]:
@@ -15,7 +14,6 @@ class MenuView(arcade.View):
             self.music_player = arcade.play_sound(sound, volume=0.3)
             if self.music_player:
                 self.music_player.looping = True
-        self.button_clicked = False  # Сбрасываем флаг при показе
 
     def on_hide(self):
         if self.music_player:
@@ -77,33 +75,28 @@ class MenuView(arcade.View):
         )
 
     def on_mouse_press(self, x, y, button, modifiers):
-        if button == arcade.MOUSE_BUTTON_LEFT and not self.button_clicked:
+        if button == arcade.MOUSE_BUTTON_LEFT:
             button_y = SCREEN_HEIGHT // 2
             button_spacing = 80
 
-            # Проверка кнопки "Начать игру"
+            # Начать игру
             if (SCREEN_WIDTH // 2 - 150 <= x <= SCREEN_WIDTH // 2 + 150 and
                     button_y - 30 <= y <= button_y + 30):
-                self.button_clicked = True
                 from views.game_view import GameView
                 game_view = GameView()
                 self.window.show_view(game_view)
                 return
 
-            # Проверка кнопки "Выход"
+            # Выход
             elif (SCREEN_WIDTH // 2 - 150 <= x <= SCREEN_WIDTH // 2 + 150 and
                   button_y - button_spacing - 30 <= y <= button_y - button_spacing + 30):
-                self.button_clicked = True
                 arcade.close_window()
                 return
 
     def on_key_press(self, key, modifiers):
-        if not self.button_clicked:
-            if key == arcade.key.ENTER or key == arcade.key.SPACE:
-                self.button_clicked = True
-                from views.game_view import GameView
-                game_view = GameView()
-                self.window.show_view(game_view)
-            elif key == arcade.key.ESCAPE:
-                self.button_clicked = True
-                arcade.close_window()
+        if key == arcade.key.ENTER or key == arcade.key.SPACE:
+            from views.game_view import GameView
+            game_view = GameView()
+            self.window.show_view(game_view)
+        elif key == arcade.key.ESCAPE:
+            arcade.close_window()

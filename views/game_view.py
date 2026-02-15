@@ -347,7 +347,6 @@ class GameView(arcade.View):
     def on_key_press(self, key, modifiers):
         self.keys_pressed.add(key)
 
-        # ИСПРАВЛЕНО: TAB для паузы
         if key == arcade.key.TAB:
             if not self.game.game_active:
                 from views.game_over_view import GameOverView
@@ -370,8 +369,6 @@ class GameView(arcade.View):
         elif key == arcade.key.SPACE:
             self.game.hard_drop()
             return
-
-        # Остальные клавиши для движения обрабатываются в on_update
 
     def on_key_release(self, key, modifiers):
         if key in self.keys_pressed:

@@ -5,22 +5,21 @@ from constants import *
 class GameOverView(arcade.View):
     def __init__(self, game_view):
         super().__init__()
-        self.game_view = game_view  # Сохраняем игровой экран
+        self.game_view = game_view  # Сохраняем для статистики
         self.background_color = (20, 0, 0, 255)
 
     def on_draw(self):
-        """Отрисовка экрана Game Over"""
         self.clear()
 
-        # Тёмный фон
+        # Фон
         arcade.draw_rect_filled(
             arcade.rect.XYWH(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, SCREEN_WIDTH, SCREEN_HEIGHT),
             (20, 0, 0, 255)
         )
 
-        # Game Over текст
+        # Заголовок
         arcade.draw_text(
-            "GAME OVER",
+            "ИГРА ОКОНЧЕНА",
             SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 150,
             (255, 50, 50, 255), 72,
             anchor_x="center",
@@ -49,34 +48,72 @@ class GameOverView(arcade.View):
             anchor_x="center"
         )
 
-        # Опции
+        # Кнопка рестарта
+        restart_y = SCREEN_HEIGHT // 2 - 120
+        arcade.draw_rect_filled(
+            arcade.rect.XYWH(SCREEN_WIDTH // 2, restart_y, 300, 50),
+            (50, 150, 255, 200)
+        )
+        arcade.draw_rect_outline(
+            arcade.rect.XYWH(SCREEN_WIDTH // 2, restart_y, 300, 50),
+            ACCENT_COLOR, 2
+        )
         arcade.draw_text(
-            "Нажми R для рестарта",
-            SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 150,
-            ACCENT_COLOR, 26,
-            anchor_x="center"
+            "РЕСТАРТ (R)",
+            SCREEN_WIDTH // 2, restart_y,
+            TEXT_COLOR, 24,
+            anchor_x="center",
+            anchor_y="center"
         )
 
-        arcade.draw_text(
-            "Нажми ESC для выхода в меню",
-            SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 200,
-            TEXT_SHADOW, 22,
-            anchor_x="center"
+        # Кнопка выхода в меню
+        menu_y = SCREEN_HEIGHT // 2 - 190
+        arcade.draw_rect_filled(
+            arcade.rect.XYWH(SCREEN_WIDTH // 2, menu_y, 300, 50),
+            (255, 50, 50, 200)
         )
+        arcade.draw_rect_outline(
+            arcade.rect.XYWH(SCREEN_WIDTH // 2, menu_y, 300, 50),
+            ACCENT_COLOR, 2
+        )
+        arcade.draw_text(
+            "В МЕНЮ (TAB)",
+            SCREEN_WIDTH // 2, menu_y,
+            TEXT_COLOR, 24,
+            anchor_x="center",
+            anchor_y="center"
+        )
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            restart_y = SCREEN_HEIGHT // 2 - 120
+            menu_y = SCREEN_HEIGHT // 2 - 190
+
+            # Рестарт - создаем НОВУЮ игру
+            if (SCREEN_WIDTH // 2 - 150 <= x <= SCREEN_WIDTH // 2 + 150 and
+                    restart_y - 25 <= y <= restart_y + 25):
+                from views.game_view import GameView
+                game_view = GameView()  # Создаем новую игру
+                self.window.show_view(game_view)
+                return
+
+            # Выход в меню - создаем НОВОЕ меню
+            elif (SCREEN_WIDTH // 2 - 150 <= x <= SCREEN_WIDTH // 2 + 150 and
+                  menu_y - 25 <= y <= menu_y + 25):
+                from views.menu_view import MenuView
+                menu_view = MenuView()  # Создаем новое меню
+                self.window.show_view(menu_view)
+                return
 
     def on_key_press(self, key, modifiers):
-        """Обработка нажатий клавиш"""
         if key == arcade.key.R:
-            # Рестарт игры - импортируем внутри функции
-            import sys
-            import os
-            sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             from views.game_view import GameView
-            game_view = GameView()
+            game_view = GameView()  # Создаем новую игру
             self.window.show_view(game_view)
+            return
 
-        elif key == arcade.key.ESCAPE:
-            # Выход в меню
+        elif key == arcade.key.TAB:
             from views.menu_view import MenuView
-            menu_view = MenuView()
+            menu_view = MenuView()  # Создаем новое меню
             self.window.show_view(menu_view)
+            return
