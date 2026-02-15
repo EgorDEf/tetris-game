@@ -3,14 +3,10 @@ from constants import TETROMINOES, COLORS
 
 
 class Tetromino:
-    """Класс фигуры тетриса (тетромино)"""
+
 
     def __init__(self, x, y, shape_idx=None):
-        """
-        Создает новую фигуру
-        x, y - начальные координаты на поле
-        shape_idx - индекс фигуры (если None - случайная)
-        """
+
         if shape_idx is None:
             shape_idx = random.randint(0, len(TETROMINOES) - 1)
 
@@ -21,11 +17,7 @@ class Tetromino:
         self.rotation = 0
 
     def rotate(self, clockwise=True):
-        """
-        Поворачивает фигуру
-        clockwise=True - по часовой стрелке
-        clockwise=False - против часовой
-        """
+
         if clockwise:
             # Поворот по часовой стрелке
             rows = len(self.shape)
@@ -43,10 +35,7 @@ class Tetromino:
         self.rotation = (self.rotation + (1 if clockwise else -1)) % 4
 
     def get_cells(self):
-        """
-        Возвращает список координат всех клеток фигуры
-        Каждая клетка - кортеж (x, y)
-        """
+
         cells = []
         for r, row in enumerate(self.shape):
             for c, cell in enumerate(row):
@@ -55,10 +44,7 @@ class Tetromino:
         return cells
 
     def clone(self):
-        """
-        Создает точную копию фигуры
-        Используется для проверки позиции призрака
-        """
+
         new_tetromino = Tetromino(self.x, self.y)
         new_tetromino.shape = [row[:] for row in self.shape]
         new_tetromino.color = self.color

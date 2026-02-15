@@ -16,8 +16,8 @@ class TetrisGame:
         self.paused = False
         self.game_active = True
         self.level_complete = False
-        self.move_cooldown = 0  # ИСПРАВЛЕНО: для контроля скорости движения
-        self.move_delay = 0.1  # ИСПРАВЛЕНО: задержка между движениями
+        self.move_cooldown = 0
+        self.move_delay = 0.1
 
         self.spawn_new_piece()
         self.spawn_next_piece()
@@ -89,38 +89,38 @@ class TetrisGame:
         if not self.game_active or self.paused:
             return
 
-        # Размещаем фигуру на поле
+
         self.board.place_tetromino(self.current_piece)
 
-        # Проверяем завершение уровня
+
         if self.check_level_complete():
             self.level_complete = True
             arcade.play_sound(arcade.load_sound(SOUNDS["level_up"]), volume=0.5)
 
-        # Создаем новую фигуру
+
         self.spawn_new_piece()
 
     def check_level_complete(self):
         return self.board.score >= self.current_level["required_score"]
 
     def next_level(self):
-        """Переход на следующий уровень"""
+
         if self.level_index < len(LEVELS) - 1:
             self.level_index += 1
             self.current_level = LEVELS[self.level_index]
             self.fall_speed = self.current_level["speed"]
 
-            # ИСПРАВЛЕНО: сбрасываем таймер падения
-            self.fall_timer = 0  # <-- ЭТО ВАЖНО!
 
-            # Очищаем поле, но очки сохраняются
+            self.fall_timer = 0
+
+
             self.board.reset_for_new_life()
 
-            # Сбрасываем текущую фигуру
+
             self.current_piece = None
             self.next_piece = None
 
-            # Создаем новые фигуры
+
             self.spawn_new_piece()
             self.spawn_next_piece()
 
@@ -132,7 +132,7 @@ class TetrisGame:
         if not self.game_active or self.paused:
             return
 
-        # ИСПРАВЛЕНО: обновляем кулдаун движения
+
         if self.move_cooldown > 0:
             self.move_cooldown -= delta_time
 

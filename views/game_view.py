@@ -80,7 +80,7 @@ class GameView(arcade.View):
                     self._draw_cell(x, y, color, False)
 
     def _draw_current_piece(self):
-        """Рисует только текущую фигуру, без проекции"""
+
         if not self.game.current_piece or not self.game.game_active:
             return
 
@@ -96,7 +96,7 @@ class GameView(arcade.View):
         next_panel_x = BOARD_OFFSET_X + BOARD_WIDTH * CELL_SIZE + 50
         next_panel_y = SCREEN_HEIGHT - 150
 
-        # ИСПРАВЛЕНО: используем Text объекты вместо draw_text
+
         next_label = arcade.Text(
             "Следующая:",
             next_panel_x, next_panel_y,
@@ -123,9 +123,6 @@ class GameView(arcade.View):
                         (255, 255, 255, 100), 1
                     )
 
-    # ЗАМЕНИ только метод _draw_info_panel в game_view.py
-
-    # ЗАМЕНИ метод _draw_info_panel в game_view.py на этот:
 
     def _draw_info_panel(self):
         info_x = BOARD_OFFSET_X + BOARD_WIDTH * CELL_SIZE + 50
@@ -205,7 +202,7 @@ class GameView(arcade.View):
                 (255, 255, 255, 50), 1
             )
 
-        # ИСПРАВЛЕНО: Управление с правильными клавишами
+
         controls_title = arcade.Text(
             "Управление:",
             info_x, info_y - 230,
@@ -342,7 +339,6 @@ class GameView(arcade.View):
         if arcade.key.DOWN in self.keys_pressed or arcade.key.S in self.keys_pressed:
             self.game.move_piece(0, -1)
 
-    # ЗАМЕНИ только метод on_key_press в game_view.py
 
     def on_key_press(self, key, modifiers):
         self.keys_pressed.add(key)

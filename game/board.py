@@ -23,7 +23,7 @@ class Board:
         return True
 
     def place_tetromino(self, tetromino):
-        """Размещает фигуру на поле"""
+
         for x, y in tetromino.get_cells():
             if 0 <= y < self.height:
                 self.grid[y][x] = tetromino.color
@@ -32,7 +32,7 @@ class Board:
         self._check_and_clear_lines()
 
     def _check_and_clear_lines(self):
-        """Проверяет все линии и очищает заполненные, опуская всё что выше"""
+
         lines_cleared = 0
         y = self.height - 1  # Начинаем с самого низа
 

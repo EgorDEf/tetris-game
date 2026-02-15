@@ -5,7 +5,7 @@ from constants import *
 class GameOverView(arcade.View):
     def __init__(self, game_view):
         super().__init__()
-        self.game_view = game_view  # Сохраняем для статистики
+        self.game_view = game_view
         self.background_color = (20, 0, 0, 255)
 
     def on_draw(self):
@@ -89,7 +89,7 @@ class GameOverView(arcade.View):
             restart_y = SCREEN_HEIGHT // 2 - 120
             menu_y = SCREEN_HEIGHT // 2 - 190
 
-            # Рестарт - создаем НОВУЮ игру
+
             if (SCREEN_WIDTH // 2 - 150 <= x <= SCREEN_WIDTH // 2 + 150 and
                     restart_y - 25 <= y <= restart_y + 25):
                 from views.game_view import GameView
@@ -97,7 +97,7 @@ class GameOverView(arcade.View):
                 self.window.show_view(game_view)
                 return
 
-            # Выход в меню - создаем НОВОЕ меню
+
             elif (SCREEN_WIDTH // 2 - 150 <= x <= SCREEN_WIDTH // 2 + 150 and
                   menu_y - 25 <= y <= menu_y + 25):
                 from views.menu_view import MenuView

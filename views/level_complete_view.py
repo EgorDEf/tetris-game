@@ -44,7 +44,7 @@ class LevelCompleteView(arcade.View):
                 anchor_x="center"
             )
 
-            # ИСПРАВЛЕНО: показываем текущие очки
+
             arcade.draw_text(
                 f"Текущие очки: {self.game_view.game.board.score}",
                 SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 70,
@@ -105,7 +105,7 @@ class LevelCompleteView(arcade.View):
     def on_key_press(self, key, modifiers):
         if self.next_level:
             if key == arcade.key.SPACE or key == arcade.key.ENTER:
-                # ИСПРАВЛЕНО: вызываем next_level перед показом
+
                 self.game_view.game.next_level()
                 self.window.show_view(self.game_view)
         else:
